@@ -98,6 +98,10 @@ open class PDFViewController: UIViewController {
         pageScrubber = PDFPageScrubber(frame: CGRect(x: 0, y: view.frame.size.height - bottomLayoutGuide.length, width: view.frame.size.width, height: 44.0), document: document)
         pageScrubber.scrubberDelegate = self
         pageScrubber.translatesAutoresizingMaskIntoConstraints = false
+       
+        //MARK:- Done for clear toolbar
+        pageScrubber.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+        pageScrubber.isTranslucent = true
         
         collectionView = PDFSinglePageViewer(frame: view.bounds, document: document)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -183,7 +187,8 @@ open class PDFViewController: UIViewController {
     }
     
     fileprivate func reloadBarButtons() {
-        navigationItem.rightBarButtonItems = rightBarButtons()
+        //MARK:- Buttons removed
+//        navigationItem.rightBarButtonItems = rightBarButtons()
         
         if isPresentingInModal {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done",
