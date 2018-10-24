@@ -50,7 +50,8 @@ open class PDFDocument: NSObject, NSCoding {
         
         let archiveFilePath = PDFDocument.archiveFilePathForFile(path: filePath)
         if let document = NSKeyedUnarchiver.unarchiveObject(withFile: archiveFilePath) as? PDFDocument {
-            document.fileUrl = URL(fileURLWithPath: filePath, isDirectory: false)
+            //MARK:- URL Fix for local files
+            document.fileUrl = URL(string: filePath)
             document.password = password
             
             try document.loadDocument()
@@ -78,7 +79,8 @@ open class PDFDocument: NSObject, NSCoding {
         
         self.guid = PDFDocument.GUID()
         self.password = password
-        self.fileUrl = URL(fileURLWithPath: filePath, isDirectory: false)
+        //MARK:- URL Fix for local files
+        self.fileUrl = URL(string: filePath)
         self.lastOpen = Date()
         
         super.init()

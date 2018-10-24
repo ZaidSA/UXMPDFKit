@@ -13,8 +13,10 @@ class ExampleViewController: UIViewController {
     
     @IBAction func loadPDF() {
 
-        let url = Bundle.main.path(forResource: "sample2", ofType: "pdf")!
-        let document = try! PDFDocument.from(filePath: url)
+//        let url = Bundle.main.path(forResource: "sample2", ofType: "pdf")!
+        let documentDirectoryURL =  try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let fpath = documentDirectoryURL.appendingPathComponent("PDFCache/Zg15j-Pix7nrzAPFINxSNTEV.pdf")
+        let document = try! PDFDocument.from(filePath: fpath.absoluteString)
         
         let pdf = PDFViewController(document: document!)
         pdf.annotationController.annotationTypes = [

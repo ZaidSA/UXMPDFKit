@@ -47,7 +47,8 @@ open class PDFRenderController {
         }
         UIGraphicsEndPDFContext()
         
-        return URL(fileURLWithPath: tempPath)
+        //MARK:- URL Fix for local files
+        return URL(string: tempPath) ?? URL(fileURLWithPath: "")
     }
     
     open func save(_ url: URL) -> Bool {

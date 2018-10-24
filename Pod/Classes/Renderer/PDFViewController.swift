@@ -187,7 +187,7 @@ open class PDFViewController: UIViewController {
     }
     
     fileprivate func reloadBarButtons() {
-        //MARK:- Buttons removed
+        //FIXME:- Buttons removed
 //        navigationItem.rightBarButtonItems = rightBarButtons()
         
         if isPresentingInModal {
