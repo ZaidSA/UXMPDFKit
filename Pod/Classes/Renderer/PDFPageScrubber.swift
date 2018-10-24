@@ -85,7 +85,9 @@ open class PDFPageScrubber: UIToolbar {
         self.document = document
         
         super.init(frame: frame)
-
+        barStyle = UIBarStyle.black
+        isTranslucent = true
+        
         clipsToBounds = false
         
         let containerItem:UIBarButtonItem = UIBarButtonItem(customView: containerView)

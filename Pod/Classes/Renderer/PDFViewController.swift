@@ -25,16 +25,16 @@ open class PDFViewController: UIViewController {
     }
     
     /// A boolean value that determines if a PDF should have fillable form elements
-    open var allowsFormFilling: Bool = true
+    open var allowsFormFilling: Bool = false
     
     /// A boolean value that determines if annotations are allowed
-    open var allowsAnnotations: Bool = true
+    open var allowsAnnotations: Bool = false
     
     /// A boolean value that determines if sharing should be allowed
-    open var allowsSharing: Bool = true
+    open var allowsSharing: Bool = false
     
     /// A boolean value that determines if view controller is displayed as modal
-    open var isPresentingInModal: Bool = false
+    open var isPresentingInModal: Bool = true
     
     /// The scroll direction of the reader
     open var scrollDirection: UICollectionViewScrollDirection = .horizontal
@@ -94,17 +94,14 @@ open class PDFViewController: UIViewController {
     
     override open func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = .black
         pageScrubber = PDFPageScrubber(frame: CGRect(x: 0, y: view.frame.size.height - bottomLayoutGuide.length, width: view.frame.size.width, height: 44.0), document: document)
         pageScrubber.scrubberDelegate = self
         pageScrubber.translatesAutoresizingMaskIntoConstraints = false
-       
-        //MARK:- Done for clear toolbar
-        pageScrubber.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
-        pageScrubber.isTranslucent = true
-        
-        collectionView = PDFSinglePageViewer(frame: view.bounds, document: document)
+
+        collectionView = PDFSinglePageViewer(frame: view.frame, document: document)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        automaticallyAdjustsScrollViewInsets = false
         collectionView.singlePageDelegate = self
         
         let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -130,8 +127,11 @@ open class PDFViewController: UIViewController {
         
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+//        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 64).isActive = true
+//        collectionView.topAnchor.constraint(equalTo: view.).constant = 100
+        
+        collectionView.bottomAnchor.constraint(equalTo: pageScrubber.topAnchor).isActive = true
         
         pageScrubber.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         pageScrubber.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -191,10 +191,10 @@ open class PDFViewController: UIViewController {
 //        navigationItem.rightBarButtonItems = rightBarButtons()
         
         if isPresentingInModal {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done",
-                                                               style: .plain,
-                                                               target: self,
-                                                               action: #selector(PDFViewController.dismissModal))
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+            let image = UIImage.bundledImage("ic_back")
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: UIBarButtonItemStyle.plain, target: self, action: #selector(PDFViewController.dismissModal))
+            navigationItem.leftBarButtonItem?.tintColor = UIColor.white
         }
     }
     
@@ -303,6 +303,10 @@ open class PDFViewController: UIViewController {
     
     func shareDocument() {
         self.shareBarButtonAction()
+    }
+    
+    func pop() {
+        navigationController?.popViewController(animated: true)
     }
     
     func dismissModal() {

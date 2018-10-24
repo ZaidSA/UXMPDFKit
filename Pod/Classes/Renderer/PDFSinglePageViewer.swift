@@ -63,7 +63,7 @@ open class PDFSinglePageViewer: UICollectionView {
 
     func setupCollectionView() {
         isPagingEnabled = true
-        backgroundColor = UIColor.groupTableViewBackground
+        backgroundColor = UIColor.black
         showsHorizontalScrollIndicator = false
         register(PDFSinglePageCell.self, forCellWithReuseIdentifier: "ContentCell")
 

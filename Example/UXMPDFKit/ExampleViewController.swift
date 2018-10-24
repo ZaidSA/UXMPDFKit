@@ -24,7 +24,7 @@ class ExampleViewController: UIViewController {
             PDFPenAnnotation.self,
             PDFTextAnnotation.self
         ]
-        
-        self.navigationController?.pushViewController(pdf, animated: true)
+        let nav = UINavigationController(rootViewController: pdf)
+        self.present(nav, animated: true, completion: nil)
     }
 }
